@@ -7,7 +7,6 @@ public class FoodBehaviour : MonoBehaviour
     public int Id { get; set; }
     private bool _wasClaimed = false;
     [SerializeField] public Transform _textboxContainer;
-    [SerializeField] public TextMesh textmesh;
     [HideInInspector] public Transform mytransform;
     [SerializeField] FoodDetails foodDetails;
     public bool WasClaimed

@@ -9,16 +9,6 @@ public class Food : MonoBehaviour
     public int points = 10;
     public int lifetime = 30;
     float time;
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    Debug.Log(other.gameObject.name);
-    //    if (other.gameObject.name == "Snake")
-    //    {
-    //        GameManager.instance.AddPoints(points);
-    //        Destroy(gameObject);
-    //        Grow();
-    //    }
-    //}
     public void Update()
     {
         time = time + Time.deltaTime;
@@ -37,15 +27,12 @@ public class Food : MonoBehaviour
         randomz = UnityEngine.Random.Range(0.5f, 10.0f);
         transform.position = new Vector3(randomx, randomz, randomy);
     }
-    //void Grow()
-    //{
-    //    for (int i = 0; i < growthAmount; i++)
-    //    {
-    //        GameObject newPart = Instantiate(FindObjectOfType<Snake>().bodyPrefab.gameObject);
-    //        newPart.transform.position = 
-    //            FindObjectOfType<Snake>().bodyParts[FindObjectOfType<Snake>().bodyParts.Count - 1].position + new Vector3(0, 0, 0.7f);
-    //        FindObjectOfType<Snake>().bodyParts.Add(newPart.transform);
-    //    }
 
-    //}
+    public void DeActivateFood()
+    {
+        if (time > lifetime)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

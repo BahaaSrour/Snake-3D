@@ -14,6 +14,7 @@ public class Snake : MonoBehaviour
     [SerializeField] LayerMask foodLayerMask;
 
     [SerializeField] bool MoveLikeNormal = true;
+    [SerializeField] FoodContainer foodContainer;
     void Start()
     {
         snakeTransform = transform;
@@ -75,7 +76,8 @@ public class Snake : MonoBehaviour
             GameManager.instance.AddPoints(1);
 
             //TODO::Poling 
-            Destroy(other.gameObject);
+            foodContainer.DeactivateFood(other.gameObject.GetComponent<FoodBehaviour>());
+            //GridManager.Instance.RemoveFoodFromGrid(other.gameObject.GetComponent<FoodBehaviour>());
             Grow();
         }
     }

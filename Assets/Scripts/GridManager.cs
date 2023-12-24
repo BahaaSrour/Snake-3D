@@ -8,7 +8,7 @@ public class GridManager : MonoBehaviour
     public static GridManager Instance => instance;
     public List<FoodBehaviour>[,,] arr3d;
     private List<FoodBehaviour> close;
-    public int foodCount = 0;
+    [SerializeField] public  int foodCount = 0;
     Vector3Int vector3intOf3 = Vector3Int.one * 3;
 
 
@@ -42,7 +42,7 @@ public class GridManager : MonoBehaviour
         arr3d[gridPosition.x, gridPosition.y, gridPosition.z].Add(_value);
         foodCount++;
     }
-    public void RemoveMarbleFromGrid(FoodBehaviour _value)
+    public void RemoveFoodFromGrid(FoodBehaviour _value)
     {
         var gridPosition = PostionToGridPosition(_value.transform.position);
         arr3d[gridPosition.x, gridPosition.y, gridPosition.z].Remove(_value);
@@ -50,9 +50,8 @@ public class GridManager : MonoBehaviour
     }
     public static Vector3Int PostionToGridPosition(Vector3 position)
     {
-        return new Vector3Int((int)(position.x + 100) / 50, (int)(position.y + 100) / 50, (int)(position.z + 100) / 50);
+        return new Vector3Int((int)(position.x + 10) / 5, (int)(position.y  / 5), (int)(position.z + 10) / 5);
     }
-
     public FoodBehaviour GetTheNearestFood(Vector3 snakePosition)
     {
         Vector3Int foodsListIndex = PostionToGridPosition(snakePosition);
