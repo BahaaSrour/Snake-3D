@@ -52,7 +52,7 @@ public class GridManager : MonoBehaviour
     {
         return new Vector3Int((int)(position.x + 10) / 5, (int)(position.y  / 5), (int)(position.z + 10) / 5);
     }
-    public FoodBehaviour GetTheNearestFood(Vector3 snakePosition)
+    public Transform GetTheNearestFood(Vector3 snakePosition)
     {
         Vector3Int foodsListIndex = PostionToGridPosition(snakePosition);
         foodsListIndex.Clamp(Vector3Int.zero, vector3intOf3);
@@ -60,7 +60,7 @@ public class GridManager : MonoBehaviour
         {
             Vector3Int tmp = new Vector3Int(Random.Range(0, 4), Random.Range(0, 4), Random.Range(0, 4));
             if (arr3d[tmp.x, tmp.y, tmp.z].Count > 0)
-                return arr3d[tmp.x, tmp.y, tmp.z][0];
+                return arr3d[tmp.x, tmp.y, tmp.z][0].mytransform;
             return null;
         }
         else
@@ -73,7 +73,7 @@ public class GridManager : MonoBehaviour
                     (snakePosition - tmp[i].mytransform.position).sqrMagnitude)
                     closest = tmp[i];
             }
-            return closest;
+            return closest.mytransform;
         }
     }
 }

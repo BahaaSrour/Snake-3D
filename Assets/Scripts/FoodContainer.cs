@@ -41,6 +41,7 @@ public class FoodContainer : MonoBehaviour
             newFood.gameObject.SetActive(true);
             inactiveFoodBehaviours.RemoveAt(0);
         }
+        newFood.gameObject.name = $"ball {gridManager.foodCount}";
         gridManager.AddFoodIntoGrid(newFood);
     }
     public void DeactivateFood(FoodBehaviour food)
@@ -51,8 +52,8 @@ public class FoodContainer : MonoBehaviour
 
     }
 
-    public FoodBehaviour GetCloseFoodToPosition(Vector3 position)
-    {
-        return gridManager.GetTheNearestFood(position);
-    }
+    //public FoodBehaviour GetCloseFoodToPosition(Vector3 position)
+    //{
+    //    return gridManager.GetTheNearestFood(position);
+    //}
 }

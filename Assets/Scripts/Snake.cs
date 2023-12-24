@@ -15,6 +15,8 @@ public class Snake : MonoBehaviour
 
     [SerializeField] bool MoveLikeNormal = true;
     [SerializeField] FoodContainer foodContainer;
+
+    public Transform HaloTransform;
     void Start()
     {
         snakeTransform = transform;
@@ -29,6 +31,8 @@ public class Snake : MonoBehaviour
 
         direction = new Vector3(horizontal, -diagonal, vertical).normalized;
         Move(direction);
+        //Debug.Log("food name "+ GridManager.Instance.GetTheNearestFood(snakeTransform.position).name);
+        SerTheNerestFood(GridManager.Instance.GetTheNearestFood(snakeTransform.position));
     }
     Vector3 lastDirection;
     void Move(Vector3 direction)
@@ -77,14 +81,17 @@ public class Snake : MonoBehaviour
 
             //TODO::Poling 
             foodContainer.DeactivateFood(other.gameObject.GetComponent<FoodBehaviour>());
-            //GridManager.Instance.RemoveFoodFromGrid(other.gameObject.GetComponent<FoodBehaviour>());
             Grow();
         }
     }
-
     void Grow()
     {
         GameObject newPart = Instantiate(bodyPrefab.gameObject, lastTailPosition, Quaternion.identity);
         bodyParts.Add(newPart.transform);
+    }
+
+    void SerTheNerestFood(Transform trans)
+    {
+        HaloTransform.position = trans.position;
     }
 }
