@@ -6,12 +6,10 @@ public class Snake : MonoBehaviour
 {
 
     public Transform bodyPrefab;
-    public Vector3 startDirection;
-    public float speed = 1f;
-    public List<Transform> bodyParts = new List<Transform>();
+    [SerializeField] float speed = 1f;
+    [HideInInspector] public List<Transform> bodyParts = new List<Transform>();
     Transform snakeTransform;
     Vector3 lastTailPosition;
-    [SerializeField] LayerMask foodLayerMask;
 
     [SerializeField] bool MoveLikeNormal = true;
     [SerializeField] FoodContainer foodContainer;
@@ -31,10 +29,30 @@ public class Snake : MonoBehaviour
 
         direction = new Vector3(horizontal, -diagonal, vertical).normalized;
         Move(direction);
-        //Debug.Log("food name "+ GridManager.Instance.GetTheNearestFood(snakeTransform.position).name);
         SerTheNerestFood(GridManager.Instance.GetTheNearestFood(snakeTransform.position));
     }
+    bool fstTime=true;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Food"))
+        {
+            Debug.Log("Food");
+            //other
+            GameManager.instance.AddPoints(1);
+
+            //TODO::Poling 
+            foodContainer.DeactivateFood(other.gameObject.GetComponent<FoodBehaviour>());
+            Grow();
+        }
+        else if(fstTime) fstTime=false;
+        else  if (other.gameObject.CompareTag("Tail"))
+        {
+            Debug.Log("aaaaaaaaaaaaaaaaaah");
+            GameManager.instance.PLayerLost();
+        }
+    }
     Vector3 lastDirection;
+    
     void Move(Vector3 direction)
     {
         if (Vector3.Dot(lastDirection, direction) < -.35)
@@ -53,7 +71,6 @@ public class Snake : MonoBehaviour
 
         MoveTail();
     }
-
     void MoveTail()
     {
         int lastindextOfTail = bodyParts.Count - 1;
@@ -69,29 +86,20 @@ public class Snake : MonoBehaviour
             }
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log(other.gameObject.name);
-        if (other.gameObject.CompareTag("Food"))
-        {
-            Debug.Log("Food");
-            //other
-            GameManager.instance.AddPoints(1);
-
-            //TODO::Poling 
-            foodContainer.DeactivateFood(other.gameObject.GetComponent<FoodBehaviour>());
-            Grow();
-        }
-    }
     void Grow()
     {
         GameObject newPart = Instantiate(bodyPrefab.gameObject, lastTailPosition, Quaternion.identity);
         bodyParts.Add(newPart.transform);
     }
-
     void SerTheNerestFood(Transform trans)
     {
+        if (trans == null) return;
         HaloTransform.position = trans.position;
+    }
+
+
+    public void SetPLayerSpeed(float Value)
+    {
+        speed = Value;
     }
 }

@@ -4,34 +4,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.SceneManagement;
 
 internal class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    public  CanvasManager canvasManager;
+    public int score;
+    public GameObject winText;
+    public Snake snake;
+    public FoodContainer foodContainer;
+    internal bool Stop;
+    int sceneIndex;
+    internal readonly int foodSeleceted = 0;
 
-    public GameObject food;
+
+    [SerializeField]float playerMinSpeed = 5;
+    [SerializeField]float playerMaxspeed = 15;
+    [SerializeField]float SpeedRatio ;
+
     public void Awake()
     {
         if (instance == null)
             instance = this;
-        else 
-            Destroy(this);
+        else
+            Destroy(gameObject);
+        sceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        SpeedRatio = playerMaxspeed - playerMinSpeed;
     }
-    public void Start()
+    public void PLayerLost()
     {
-        score = 0;
-        StartCoroutine("generateFood");
+        snake.gameObject.SetActive(false);
+        canvasManager.GameLost();
     }
-
-
-    //TODO:: UpdateScore
     internal void AddPoints(int points)
     {
         score += points;
         winText.GetComponent<TextMeshProUGUI>().text = score + "";
     }
-    public int score;
-    public GameObject winText;
 
     void Update()
     {
@@ -41,24 +52,33 @@ internal class GameManager : MonoBehaviour
             WinGame();
         }
     }
-
     void WinGame()
     {
-        winText.SetActive(true);
+        Restart();
     }
-    IEnumerator generateFood()
+    public void Restart()
     {
-        yield return new WaitForSeconds(0.2f);
-        float randomx, randomy, randomz;
-        randomx = UnityEngine.Random.Range(-10.0f, 10.0f);
-        randomy = UnityEngine.Random.Range(-10.0f, 10.0f);
-        randomz = UnityEngine.Random.Range(0.5f, 10.0f);
-        Instantiate(food, new Vector3(randomx, randomz, randomy), Quaternion.identity);
-        StartCoroutine(generateFood());
+        SceneManager.LoadScene(sceneIndex, LoadSceneMode.Single);
     }
-
-    public void UpdateScore(int foodScore)
+    public void SetPLayerSpeed(float value)
     {
+#if UNITY_EDITOR
+        Debug.Log($"Speed = {value}");
+# endif
+        var speed = playerMinSpeed + SpeedRatio * value;
 
+        snake.SetPLayerSpeed(speed);
+    }
+    public void SetFoodRespawnSpeed(float value)
+    {
+#if UNITY_EDITOR
+        //Debug.Log($"food  Speed = {value}");
+# endif
+
+        foodContainer.SetGeneratingSpeed(value);
+    }
+    internal void Exit()
+    {
+        Application.Quit();
     }
 }

@@ -4,27 +4,31 @@ using UnityEngine;
 
 public class FoodContainer : MonoBehaviour
 {
+    public List<FoodBehaviour> foddPrefabs;
     public FoodBehaviour foddPrefab;
     GridManager gridManager;
     public Transform foodParent;
     List<FoodBehaviour> inactiveFoodBehaviours;
+    float generatingSpeed = 2;
+    float lowestMinSpeed = 2;
+    float highestGeneretingSpeed= .1f;
     void Start()
     {
+        foddPrefab = foddPrefabs[GameManager.instance.foodSeleceted];
         gridManager = GridManager.Instance;
         inactiveFoodBehaviours = new List<FoodBehaviour>();
         StartCoroutine(SpawnMarbles());
     }
     IEnumerator SpawnMarbles()
     {
-        for (int i = 0; i < 300; i++)
+        for (int i = 0; i < 15; i++)
         {
-
             GenerateFood();
         }
         while (true)
         {
             GenerateFood();
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(generatingSpeed);
         }
     }
     private void GenerateFood()
@@ -49,11 +53,11 @@ public class FoodContainer : MonoBehaviour
         gridManager.RemoveFoodFromGrid(food);
         food.gameObject.SetActive(false);
         inactiveFoodBehaviours.Add(food);
-
     }
 
-    //public FoodBehaviour GetCloseFoodToPosition(Vector3 position)
-    //{
-    //    return gridManager.GetTheNearestFood(position);
-    //}
+    public void SetGeneratingSpeed(float value )
+    {
+        generatingSpeed = Mathf.Clamp(value, highestGeneretingSpeed, lowestMinSpeed);
+        Debug.Log($"GP =  {generatingSpeed}");
+    }
 }
