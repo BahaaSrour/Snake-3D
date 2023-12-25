@@ -36,18 +36,14 @@ public class Snake : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Food"))
         {
-            Debug.Log("Food");
-            //other
             GameManager.instance.AddPoints(1);
-
-            //TODO::Poling 
+            GameManager.instance.CheckWinGame();
             foodContainer.DeactivateFood(other.gameObject.GetComponent<FoodBehaviour>());
             Grow();
         }
         else if(fstTime) fstTime=false;
         else  if (other.gameObject.CompareTag("Tail"))
         {
-            Debug.Log("aaaaaaaaaaaaaaaaaah");
             GameManager.instance.PLayerLost();
         }
     }

@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 internal class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public  CanvasManager canvasManager;
+    public CanvasManager canvasManager;
     public int score;
     public GameObject winText;
     public Snake snake;
@@ -19,9 +19,9 @@ internal class GameManager : MonoBehaviour
     internal readonly int foodSeleceted = 0;
 
 
-    [SerializeField]float playerMinSpeed = 5;
-    [SerializeField]float playerMaxspeed = 15;
-    [SerializeField]float SpeedRatio ;
+    [SerializeField] float playerMinSpeed = 5;
+    [SerializeField] float playerMaxspeed = 15;
+    [SerializeField] float SpeedRatio;
 
     public void Awake()
     {
@@ -43,18 +43,12 @@ internal class GameManager : MonoBehaviour
         score += points;
         winText.GetComponent<TextMeshProUGUI>().text = score + "";
     }
-
-    void Update()
+    public void CheckWinGame()
     {
-        Debug.Log(score);
         if (score >= 100)
         {
-            WinGame();
+            canvasManager.GameLost();
         }
-    }
-    void WinGame()
-    {
-        Restart();
     }
     public void Restart()
     {
