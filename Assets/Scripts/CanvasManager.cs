@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CanvasManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class CanvasManager : MonoBehaviour
     [SerializeField] Slider foodRespawnSlider;
     [SerializeField] Toggle choosePrefab;
 
+    [SerializeField] TMP_Text scoreInPanal;
     private void Start()
     {
         speedSlider.onValueChanged.AddListener(PlayerSpeed);
@@ -40,9 +42,16 @@ public class CanvasManager : MonoBehaviour
         GameManager.instance.Exit();
 
     }
-    public void GameLost()
+    public void GameLost(int value)
     {
+        scoreInPanal.text = value.ToString();
         restartPanal.SetActive(true);
 
     }
+
+    public void GetPrefabSelection(int index)
+    {
+        GameManager.instance.SetPrefabIndex(index);
+    }
+
 }

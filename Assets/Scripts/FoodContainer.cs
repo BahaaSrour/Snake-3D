@@ -9,12 +9,12 @@ public class FoodContainer : MonoBehaviour
     GridManager gridManager;
     public Transform foodParent;
     List<FoodBehaviour> inactiveFoodBehaviours;
-    float generatingSpeed = 2;
+    float _generatingSpeed = 2;
     float lowestMinSpeed = 2;
     float highestGeneretingSpeed= .1f;
     void Start()
     {
-        foddPrefab = foddPrefabs[GameManager.instance.foodSeleceted];
+        foddPrefab = foddPrefabs[GameManager.instance.selecetedFood];
         gridManager = GridManager.Instance;
         inactiveFoodBehaviours = new List<FoodBehaviour>();
         StartCoroutine(SpawnMarbles());
@@ -28,7 +28,7 @@ public class FoodContainer : MonoBehaviour
         while (true)
         {
             GenerateFood();
-            yield return new WaitForSeconds(generatingSpeed);
+            yield return new WaitForSeconds(_generatingSpeed);
         }
     }
     private void GenerateFood()
@@ -55,9 +55,10 @@ public class FoodContainer : MonoBehaviour
         inactiveFoodBehaviours.Add(food);
     }
 
-    public void SetGeneratingSpeed(float value )
+    public void SetGeneratingSpeedFromRatio(float value )
     {
-        generatingSpeed = Mathf.Clamp(value, highestGeneretingSpeed, lowestMinSpeed);
-        Debug.Log($"GP =  {generatingSpeed}");
+        _generatingSpeed = Mathf.Lerp(lowestMinSpeed, highestGeneretingSpeed, value);
+        Debug.Log($"GP =  {_generatingSpeed}");
     }
+
 }

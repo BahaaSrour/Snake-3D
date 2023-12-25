@@ -11,11 +11,10 @@ GameObject:
   - component: {fileID: 5521963666159718857}
   - component: {fileID: 202689336410729943}
   - component: {fileID: 7728766373056123561}
-  - component: {fileID: 3340147172058780062}
   - component: {fileID: 2536061564330954882}
   - component: {fileID: -1002617452290377608}
   m_Layer: 8
-  m_Name: Sphere
+  m_Name: Sphere Green
   m_TagString: Food
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c527718a8ceeb7648a47f810e4d3fbfc, type: 2}
+  - {fileID: 2100000, guid: abad107a7e2cc1145998128ab3caa7e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -86,21 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3340147172058780062
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8546318155153715943}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efec36895fa65a44abd054941108bafb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  points: 10
-  lifetime: 30
-  growthAmount: 1
 --- !u!135 &2536061564330954882
 SphereCollider:
   m_ObjectHideFlags: 0

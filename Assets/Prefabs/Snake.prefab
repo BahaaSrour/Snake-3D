@@ -157,7 +157,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 6bc8ced750521d2478d3eeb7afe46d66, type: 2}
+  - {fileID: 2100000, guid: 5a4a5d941000b4d42a84452ed8ff285b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -192,13 +192,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bodyPrefab: {fileID: 7428705387175594211, guid: 4b1cd477b7b307844a881ed37c9b931f, type: 3}
-  startDirection: {x: 0, y: 0, z: 0}
   speed: 5
   bodyParts: []
-  foodLayerMask:
-    serializedVersion: 2
-    m_Bits: 0
   MoveLikeNormal: 1
+  foodContainer: {fileID: 0}
+  HaloTransform: {fileID: 0}
 --- !u!143 &7305673777379177071
 CharacterController:
   m_ObjectHideFlags: 0

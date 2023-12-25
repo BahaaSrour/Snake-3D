@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 internal class GameManager : MonoBehaviour
 {
@@ -16,7 +17,7 @@ internal class GameManager : MonoBehaviour
     public FoodContainer foodContainer;
     internal bool Stop;
     int sceneIndex;
-    internal readonly int foodSeleceted = 0;
+    internal int selecetedFood = 0;
 
 
     [SerializeField] float playerMinSpeed = 5;
@@ -30,13 +31,16 @@ internal class GameManager : MonoBehaviour
         else
             Destroy(gameObject);
         sceneIndex = SceneManager.GetActiveScene().buildIndex;
+            SpeedRatio = playerMaxspeed - playerMinSpeed;
 
-        SpeedRatio = playerMaxspeed - playerMinSpeed;
+        SetPLayerSpeed(CurrentSettingSingleton.Instance.GetSnakeSpeed());
+        SetFoodRespawnSpeed(CurrentSettingSingleton.Instance.GetGeneratingFoodSpeed());
+        SetPrefabIndex(CurrentSettingSingleton.Instance._selecetedFood);
     }
     public void PLayerLost()
     {
         snake.gameObject.SetActive(false);
-        canvasManager.GameLost();
+        canvasManager.GameLost(score);
     }
     internal void AddPoints(int points)
     {
@@ -47,7 +51,7 @@ internal class GameManager : MonoBehaviour
     {
         if (score >= 100)
         {
-            canvasManager.GameLost();
+            canvasManager.GameLost(score);
         }
     }
     public void Restart()
@@ -62,6 +66,7 @@ internal class GameManager : MonoBehaviour
         var speed = playerMinSpeed + SpeedRatio * value;
 
         snake.SetPLayerSpeed(speed);
+        CurrentSettingSingleton.Instance.SetSnakeSpeed(value);
     }
     public void SetFoodRespawnSpeed(float value)
     {
@@ -69,10 +74,17 @@ internal class GameManager : MonoBehaviour
         //Debug.Log($"food  Speed = {value}");
 # endif
 
-        foodContainer.SetGeneratingSpeed(value);
+        foodContainer.SetGeneratingSpeedFromRatio(value);
+        CurrentSettingSingleton.Instance.SetGeneratingFoodSpeed(value);
     }
     internal void Exit()
     {
         Application.Quit();
+    }
+
+    internal void SetPrefabIndex(int index)
+    {
+        selecetedFood = index;
+        CurrentSettingSingleton.Instance._selecetedFood = index;
     }
 }

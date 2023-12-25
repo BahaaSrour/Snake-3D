@@ -15,12 +15,14 @@ public class Snake : MonoBehaviour
     [SerializeField] FoodContainer foodContainer;
 
     public Transform HaloTransform;
+    Vector3 direction;
+    Vector3 lastDirection;
+    bool fstTime=true;
     void Start()
     {
         snakeTransform = transform;
         bodyParts.Add(transform);
     }
-    Vector3 direction;
     void Update()
     {
         float horizontal = Input.GetAxis("Horizontal");
@@ -31,7 +33,6 @@ public class Snake : MonoBehaviour
         Move(direction);
         SerTheNerestFood(GridManager.Instance.GetTheNearestFood(snakeTransform.position));
     }
-    bool fstTime=true;
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Food"))
@@ -41,13 +42,12 @@ public class Snake : MonoBehaviour
             foodContainer.DeactivateFood(other.gameObject.GetComponent<FoodBehaviour>());
             Grow();
         }
-        else if(fstTime) fstTime=false;
+        //else if(fstTime) fstTime=false;
         else  if (other.gameObject.CompareTag("Tail"))
         {
             GameManager.instance.PLayerLost();
         }
     }
-    Vector3 lastDirection;
     
     void Move(Vector3 direction)
     {
@@ -86,14 +86,14 @@ public class Snake : MonoBehaviour
     {
         GameObject newPart = Instantiate(bodyPrefab.gameObject, lastTailPosition, Quaternion.identity);
         bodyParts.Add(newPart.transform);
+        if (bodyParts.Count<4)
+            newPart.GetComponent<Collider>().enabled = false;
     }
     void SerTheNerestFood(Transform trans)
     {
         if (trans == null) return;
         HaloTransform.position = trans.position;
     }
-
-
     public void SetPLayerSpeed(float Value)
     {
         speed = Value;
